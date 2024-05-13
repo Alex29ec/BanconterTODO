@@ -12,6 +12,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class PanelPrincipal extends JPanel {
 
@@ -29,6 +30,34 @@ public class PanelPrincipal extends JPanel {
 		JToolBar toolBar = new JToolBar();
 		add(toolBar, BorderLayout.NORTH);
 		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/gotostart.png")));
+		toolBar.add(button);
+		
+		JButton button_1 = new JButton("");
+		button_1.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/previous.png")));
+		toolBar.add(button_1);
+		
+		JButton button_2 = new JButton("");
+		button_2.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/next.png")));
+		toolBar.add(button_2);
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/gotoend.png")));
+		toolBar.add(btnNewButton);
+		
+		JButton button_3 = new JButton("");
+		button_3.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/nuevo.png")));
+		toolBar.add(button_3);
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/eliminar.png")));
+		toolBar.add(btnNewButton_1);
+		
+		JButton button_4 = new JButton("");
+		button_4.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/guardar.png")));
+		toolBar.add(button_4);
+		
 		JPanel jtfusuario = new JPanel();
 		add(jtfusuario, BorderLayout.CENTER);
 		GridBagLayout gbl_jtfusuario = new GridBagLayout();
@@ -40,6 +69,7 @@ public class PanelPrincipal extends JPanel {
 		
 		JLabel lblGestionContrato = new JLabel("Gestion Contrato");
 		GridBagConstraints gbc_lblGestionContrato = new GridBagConstraints();
+		gbc_lblGestionContrato.gridwidth = 3;
 		gbc_lblGestionContrato.insets = new Insets(0, 0, 5, 5);
 		gbc_lblGestionContrato.gridx = 0;
 		gbc_lblGestionContrato.gridy = 0;
@@ -157,14 +187,6 @@ public class PanelPrincipal extends JPanel {
 		gbc_btnSeleccionarUsuario.gridx = 2;
 		gbc_btnSeleccionarUsuario.gridy = 6;
 		jtfusuario.add(btnSeleccionarUsuario, gbc_btnSeleccionarUsuario);
-		
-		JButton btnGuardar = new JButton("Guardar");
-		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
-		gbc_btnGuardar.gridwidth = 3;
-		gbc_btnGuardar.insets = new Insets(0, 0, 0, 5);
-		gbc_btnGuardar.gridx = 0;
-		gbc_btnGuardar.gridy = 7;
-		jtfusuario.add(btnGuardar, gbc_btnGuardar);
 
 	}
 
