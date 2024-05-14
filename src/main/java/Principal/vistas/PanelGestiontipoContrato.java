@@ -6,7 +6,14 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import Principal.controlador.DatosDeTabla;
+
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -16,6 +23,11 @@ public class PanelGestiontipoContrato extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField jtffiltro;
+
+	private DefaultTableModel dtm = null;
+
+	private Object datosEnTabla[][] = DatosDeTabla.getDatosDeTabla();
+	private String titulosEnTabla[] = DatosDeTabla.getTitulosColumnas();
 	private JTable table;
 
 	public PanelGestiontipoContrato() {
@@ -55,10 +67,33 @@ public class PanelGestiontipoContrato extends JPanel {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		panel.add(scrollPane, gbc_scrollPane);
-		
-		table = new JTable();
+		this.dtm = getDefaultTableModelNoEditable();
+		table = new JTable(dtm);
 		scrollPane.setViewportView(table);
-
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				int indiceFilaSel = table.getSelectedRow();		
+				Object value = datosEnTabla[indiceFilaSel][0];
+			}
+		});
+	}
+	private DefaultTableModel getDefaultTableModelNoEditable () {
+		DefaultTableModel dtm = new DefaultTableModel(datosEnTabla, titulosEnTabla) {
+			
+			/**
+			 * La sobreescritura de este método nos permite controlar qué celdas queremos que sean editables
+			 */
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column != 1) {
+					return false;
+				}
+				return true;
+			}
+		};
+		return dtm;
 	}
 
 }

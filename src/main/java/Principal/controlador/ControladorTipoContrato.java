@@ -6,13 +6,19 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import Principal.Entidades.Contrato;
 import Principal.Entidades.Tipocontrato;
 
 
 
-public class ControladorTipoContrato {
+public class ControladorTipoContrato extends Controlador{
 	
-	private static EntityManager em =  Persistence.createEntityManagerFactory("Banco").createEntityManager();
+	public ControladorTipoContrato(Class entidadControlada, String unidadPersistencia) {
+		super(entidadControlada, unidadPersistencia);
+		// TODO Auto-generated constructor stub
+	}
+
+	private static EntityManager em =  Persistence.createEntityManagerFactory("PanelModificacionFConTODO").createEntityManager();
 	static String nombreTabla = "tipocontrato";
 	
 	private static EntityManagerFactory entityManagerFactory;
@@ -21,7 +27,16 @@ public class ControladorTipoContrato {
 		return entityManagerFactory;
 	}
 	
-	public static List<Tipocontrato> findAll() {
+static ControladorTipoContrato instance = null;
+	
+	public static ControladorTipoContrato getInstance() {
+		if (instance == null) {
+			instance = new ControladorTipoContrato(Contrato.class,"PanelModificacionFConTODO");
+		}
+		return instance;
+	}
+	
+	public List<Tipocontrato> findAll() {
 		
 		return (List<Tipocontrato>) em.createNativeQuery("SELECT * FROM " + nombreTabla, Tipocontrato.class)
 				.getResultList();
