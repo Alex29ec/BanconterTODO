@@ -3,6 +3,10 @@ package Principal.vistas;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
+
+import Principal.Entidades.Contrato;
+import Principal.controlador.ControladorContrato;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -13,14 +17,23 @@ import javax.swing.JSpinner;
 import javax.swing.JSlider;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class PanelPrincipal extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
+	private JTextField jtfDescripcion;
 	private JTextField jtftipoContrato;
-	private JTextField textField_2;
-
+	private JTextField Jtfusuario;
+	private Contrato current;
+	private JSlider jsliderSaldo;
+	private JSpinner jspinnerlimite;
+	private JFormattedTextField jftfecha;
+	private JLabel labelsaldopuesto;
 	/**
 	 * Create the panel.
 	 */
@@ -31,18 +44,38 @@ public class PanelPrincipal extends JPanel {
 		add(toolBar, BorderLayout.NORTH);
 		
 		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				primero();
+			}
+		});
 		button.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/gotostart.png")));
 		toolBar.add(button);
 		
 		JButton button_1 = new JButton("");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				anterior();
+			}
+		});
 		button_1.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/previous.png")));
 		toolBar.add(button_1);
 		
 		JButton button_2 = new JButton("");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				siguiente();
+			}
+		});
 		button_2.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/next.png")));
 		toolBar.add(button_2);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ultimo();
+			}
+		});
 		btnNewButton.setIcon(new ImageIcon(PanelPrincipal.class.getResource("/res/gotoend.png")));
 		toolBar.add(btnNewButton);
 		
@@ -70,7 +103,7 @@ public class PanelPrincipal extends JPanel {
 		JLabel lblGestionContrato = new JLabel("Gestion Contrato");
 		GridBagConstraints gbc_lblGestionContrato = new GridBagConstraints();
 		gbc_lblGestionContrato.gridwidth = 3;
-		gbc_lblGestionContrato.insets = new Insets(0, 0, 5, 5);
+		gbc_lblGestionContrato.insets = new Insets(0, 0, 5, 0);
 		gbc_lblGestionContrato.gridx = 0;
 		gbc_lblGestionContrato.gridy = 0;
 		jtfusuario.add(lblGestionContrato, gbc_lblGestionContrato);
@@ -83,15 +116,15 @@ public class PanelPrincipal extends JPanel {
 		gbc_lblDescripcion.gridy = 1;
 		jtfusuario.add(lblDescripcion, gbc_lblDescripcion);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 2;
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 1;
-		jtfusuario.add(textField, gbc_textField);
-		textField.setColumns(10);
+		jtfDescripcion = new JTextField();
+		GridBagConstraints gbc_jtfDescripcion = new GridBagConstraints();
+		gbc_jtfDescripcion.gridwidth = 2;
+		gbc_jtfDescripcion.insets = new Insets(0, 0, 5, 0);
+		gbc_jtfDescripcion.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jtfDescripcion.gridx = 1;
+		gbc_jtfDescripcion.gridy = 1;
+		jtfusuario.add(jtfDescripcion, gbc_jtfDescripcion);
+		jtfDescripcion.setColumns(10);
 		
 		JLabel lblFecha = new JLabel("Fecha:");
 		GridBagConstraints gbc_lblFecha = new GridBagConstraints();
@@ -101,14 +134,14 @@ public class PanelPrincipal extends JPanel {
 		gbc_lblFecha.gridy = 2;
 		jtfusuario.add(lblFecha, gbc_lblFecha);
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
-		gbc_formattedTextField.gridwidth = 2;
-		gbc_formattedTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_formattedTextField.gridx = 1;
-		gbc_formattedTextField.gridy = 2;
-		jtfusuario.add(formattedTextField, gbc_formattedTextField);
+		jftfecha = new JFormattedTextField();
+		GridBagConstraints gbc_jftfecha = new GridBagConstraints();
+		gbc_jftfecha.gridwidth = 2;
+		gbc_jftfecha.insets = new Insets(0, 0, 5, 0);
+		gbc_jftfecha.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jftfecha.gridx = 1;
+		gbc_jftfecha.gridy = 2;
+		jtfusuario.add(jftfecha, gbc_jftfecha);
 		
 		JLabel lblNewLabel = new JLabel("Limite:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
@@ -117,7 +150,7 @@ public class PanelPrincipal extends JPanel {
 		gbc_lblNewLabel.gridy = 3;
 		jtfusuario.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JSpinner jspinnerlimite = new JSpinner();
+		jspinnerlimite = new JSpinner();
 		GridBagConstraints gbc_jspinnerlimite = new GridBagConstraints();
 		gbc_jspinnerlimite.gridwidth = 2;
 		gbc_jspinnerlimite.insets = new Insets(0, 0, 5, 0);
@@ -132,13 +165,25 @@ public class PanelPrincipal extends JPanel {
 		gbc_lblSaldo.gridy = 4;
 		jtfusuario.add(lblSaldo, gbc_lblSaldo);
 		
-		JSlider jsliderSaldo = new JSlider();
+		jsliderSaldo = new JSlider();
+		jsliderSaldo.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+
+				labelsaldopuesto.setText("Saldo: "+jsliderSaldo.getValue());
+			}
+		});
 		GridBagConstraints gbc_jsliderSaldo = new GridBagConstraints();
-		gbc_jsliderSaldo.gridwidth = 2;
-		gbc_jsliderSaldo.insets = new Insets(0, 0, 5, 0);
+		gbc_jsliderSaldo.insets = new Insets(0, 0, 5, 5);
 		gbc_jsliderSaldo.gridx = 1;
 		gbc_jsliderSaldo.gridy = 4;
 		jtfusuario.add(jsliderSaldo, gbc_jsliderSaldo);
+		
+		labelsaldopuesto = new JLabel("");
+		GridBagConstraints gbc_labelsaldopuesto = new GridBagConstraints();
+		gbc_labelsaldopuesto.insets = new Insets(0, 0, 5, 0);
+		gbc_labelsaldopuesto.gridx = 2;
+		gbc_labelsaldopuesto.gridy = 4;
+		jtfusuario.add(labelsaldopuesto, gbc_labelsaldopuesto);
 		
 		JLabel lblTipocontrato = new JLabel("TipoContrato: ");
 		GridBagConstraints gbc_lblTipocontrato = new GridBagConstraints();
@@ -172,14 +217,14 @@ public class PanelPrincipal extends JPanel {
 		gbc_lblUsuario.gridy = 6;
 		jtfusuario.add(lblUsuario, gbc_lblUsuario);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 1;
-		gbc_textField_2.gridy = 6;
-		jtfusuario.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		Jtfusuario = new JTextField();
+		GridBagConstraints gbc_jtfusuario = new GridBagConstraints();
+		gbc_jtfusuario.insets = new Insets(0, 0, 5, 5);
+		gbc_jtfusuario.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jtfusuario.gridx = 1;
+		gbc_jtfusuario.gridy = 6;
+		jtfusuario.add(Jtfusuario, gbc_jtfusuario);
+		Jtfusuario.setColumns(10);
 		
 		JButton btnSeleccionarUsuario = new JButton("Seleccionar");
 		GridBagConstraints gbc_btnSeleccionarUsuario = new GridBagConstraints();
@@ -190,4 +235,34 @@ public class PanelPrincipal extends JPanel {
 
 	}
 
+public void mostrarcontrato() {
+	if(current != null) {
+		this.jtfDescripcion.setText(current.getDescripcion());
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		this.jftfecha.setText(sdf.format(current.getFechaFirma()));
+		this.jtftipoContrato.setText(current.getTipocontrato().getDescripcion());
+		this.jspinnerlimite.setValue(current.getLimite());
+		this.jsliderSaldo.setMaximum((int)current.getLimite());
+		this.jsliderSaldo.setValue((int)current.getSaldo());
+		this.Jtfusuario.setText(current.getUsuario().getNombreUsuario());
+	}
+}
+	
+	private void primero() {
+		current = (Contrato) ControladorContrato.getInstance().findFirst();
+		mostrarcontrato();
+	}
+	private void ultimo() {
+		current = (Contrato) ControladorContrato.getInstance().findLast();
+		mostrarcontrato();
+	}
+	private void siguiente() {
+		current = (Contrato) ControladorContrato.getInstance().findNext(current);
+		mostrarcontrato();
+	}
+	private void anterior() {
+		current =(Contrato) ControladorContrato.getInstance().findPrevious(current);
+		mostrarcontrato();
+	}
+	
 }
