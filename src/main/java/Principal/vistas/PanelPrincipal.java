@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JToolBar;
 
 import Principal.Entidades.Contrato;
+import Principal.Entidades.Tipocontrato;
 import Principal.controlador.ControladorContrato;
 
 import java.awt.GridBagLayout;
@@ -37,6 +38,8 @@ public class PanelPrincipal extends JPanel {
 	private JSpinner jspinnerlimite;
 	private JFormattedTextField jftfecha;
 	private JLabel labelsaldopuesto;
+	
+	private static JDialog currentDialog;
 	/**
 	 * Create the panel.
 	 */
@@ -210,6 +213,12 @@ public class PanelPrincipal extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				PanelGestiontipoContrato pgc = new PanelGestiontipoContrato();
 				abrirNuevoDialogo(pgc);
+				Tipocontrato tc = PanelGestiontipoContrato.getTc(current);
+				if (tc != null) {
+					current.setTipocontrato(tc);
+
+				}
+				jtftipoContrato.setText(current.getTipocontrato().getId()+" - "+ current.getTipocontrato().getDescripcion());
 			}
 		});
 		GridBagConstraints gbc_btnseleccionarTipoContrato = new GridBagConstraints();
@@ -236,12 +245,19 @@ public class PanelPrincipal extends JPanel {
 		Jtfusuario.setColumns(10);
 		
 		JButton btnSeleccionarUsuario = new JButton("Seleccionar");
+		btnSeleccionarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelUsuario pu = new PanelUsuario();
+				
+				abrirNuevoDialogo(pu);
+			}
+		});
 		GridBagConstraints gbc_btnSeleccionarUsuario = new GridBagConstraints();
 		gbc_btnSeleccionarUsuario.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSeleccionarUsuario.gridx = 2;
 		gbc_btnSeleccionarUsuario.gridy = 6;
 		jtfusuario.add(btnSeleccionarUsuario, gbc_btnSeleccionarUsuario);
-
+		primero();
 	}
 
 public void mostrarcontrato() {
@@ -249,7 +265,7 @@ public void mostrarcontrato() {
 		this.jtfDescripcion.setText(current.getDescripcion());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		this.jftfecha.setText(sdf.format(current.getFechaFirma()));
-		this.jtftipoContrato.setText(current.getTipocontrato().getDescripcion());
+		this.jtftipoContrato.setText(current.getTipocontrato().getId()+" - "+ current.getTipocontrato().getDescripcion());
 		this.jspinnerlimite.setValue(current.getLimite());
 		this.jsliderSaldo.setMaximum((int)current.getLimite());
 		this.jsliderSaldo.setValue((int)current.getSaldo());
@@ -259,12 +275,13 @@ public void mostrarcontrato() {
 
 public void abrirNuevoDialogo(JPanel panel) {
 	JDialog dialogo = new JDialog();
+	currentDialog=dialogo;
 	// El usuario no puede redimensionar el di�logo
 	dialogo.setResizable(true);
 	// t�tulo del d�alogo
 	dialogo.setTitle("Gestión de Tipos de Contrato");
 	// Introducimos el panel creado sobre el di�logo
-	dialogo.setContentPane(panel);
+	 dialogo.setContentPane(panel);
 	// Empaquetar el di�logo hace que todos los componentes ocupen el espacio que deben y el lugar adecuado
 	dialogo.pack();
 	// El usuario no puede hacer clic sobre la ventana padre, si el Di�logo es modal
@@ -275,6 +292,18 @@ public void abrirNuevoDialogo(JPanel panel) {
 	// Muestro el di�logo en pantalla
 	dialogo.setVisible(true);
 }
+
+public static JDialog getDialogo(){
+	if(currentDialog!=null) {
+		return currentDialog;
+	}
+	else {
+		System.out.println("El dialogo es nulo");
+		return null;
+	}
+	
+}
+
 	private void primero() {
 		current = (Contrato) ControladorContrato.getInstance().findFirst();
 		mostrarcontrato();

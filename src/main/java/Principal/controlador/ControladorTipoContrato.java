@@ -13,8 +13,8 @@ import Principal.Entidades.Tipocontrato;
 
 public class ControladorTipoContrato extends Controlador{
 	
-	public ControladorTipoContrato(Class entidadControlada, String unidadPersistencia) {
-		super(entidadControlada, unidadPersistencia);
+	public ControladorTipoContrato(String unidadPersistencia) {
+		super(Tipocontrato.class, unidadPersistencia);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -31,10 +31,12 @@ static ControladorTipoContrato instance = null;
 	
 	public static ControladorTipoContrato getInstance() {
 		if (instance == null) {
-			instance = new ControladorTipoContrato(Contrato.class,"PanelModificacionFConTODO");
+			instance = new ControladorTipoContrato("PanelModificacionFConTODO");
 		}
 		return instance;
 	}
+	
+	
 	
 	public List<Tipocontrato> findAll() {
 		

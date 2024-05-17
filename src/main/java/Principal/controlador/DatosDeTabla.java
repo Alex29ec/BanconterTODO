@@ -7,7 +7,6 @@ import Principal.Entidades.Tipocontrato;
 
 
 public class DatosDeTabla {
-
 	/** 
 	 * 
 	 * @return
@@ -15,9 +14,7 @@ public class DatosDeTabla {
 	public static String[] getTitulosColumnas() {
 		return new String[] {"Id","Descripcion"};
 	}
-
 	/**
-	 * 
 	 * @return
 	 */
 	public static Object[][] getDatosDeTabla() {
@@ -31,9 +28,6 @@ public class DatosDeTabla {
 			datos[i][0] = persona.getId();
 			datos[i][1] = persona.getDescripcion();
 		}
-		
 		return datos;
-	}
-	
-	
+	}	
 }
